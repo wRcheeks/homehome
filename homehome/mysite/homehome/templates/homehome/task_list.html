@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}タスクの一覧{% endblock title %}
+
+{% block extrahead %}
+<style>
+table {
+  margin-top: 8px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    <h3 class="page-header">タスクの一覧</h3>
+    <a href="{% url 'homehome:task_add' %}" class="btn btn-default btn-sm">追加</a>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>タイトル</th>
+          <th>内容</th>
+          <th>点数</th>
+          <th>合否</th>
+          <th>
+            チェック
+          </th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        <tr>
+          <td>{{ task.pub_date }}</td>
+          <td>{{ task.title }}</td>
+          <td>{{ task.contents|linebreaksbr }}</td>
+          <td>{{ task.point }}</td>
+          {% if task.is_completed == 1 %}
+          <td>天才イ！</td>
+          {% else %}
+          <td>これからだア！</td>
+          {% endif %}
+          <td>
+            <a href="{% url 'homehome:task_comp_edit' task_id=task.id %}" class="btn btn-default btn-sm">□</a>
+          </td>
+          <td>
+            <a href="{% url 'homehome:task_mod' task_id=task.id %}" class="btn btn-default btn-sm">修正</a>
+            <a href="{% url 'homehome:task_del' task_id=task.id %}" class="btn btn-default btn-sm">削除</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% endblock content %}
